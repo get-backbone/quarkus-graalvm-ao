@@ -57,7 +57,7 @@ tasks:
           -Dquarkus.native.container-build=true \
           -Dquarkus.native.builder-image={{.ORACLE_BUILDER}} \
           -Dquarkus.native.container-runtime-options=-w,/project \
-          -Dquarkus.native.additional-build-args=-H:AdvancedObfuscation=export-mapping,--initialize-at-run-time=org.fusesource.jansi
+          -Dquarkus.native.additional-build-args=-H:AdvancedObfuscation=export-mapping,--enable-sbom=false,--initialize-at-run-time=org.fusesource.jansi
 
   ao:image:
     desc: Package AO runner as local Docker image
