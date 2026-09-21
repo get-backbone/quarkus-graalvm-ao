@@ -1,0 +1,5 @@
+# Build context for scripts/native/Dockerfile.ao (native runner only).
+*
+!target/
+target/*
+!target/*-runner

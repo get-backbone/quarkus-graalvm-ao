@@ -1,0 +1,96 @@
+version: '3'
+
+vars:
+  IMAGE: localhost/quarkus-graalvm-ao:1.0.0-SNAPSHOT-ao
+  RUNNER: quarkus-graalvm-ao-1.0.0-SNAPSHOT-runner
+  ORACLE_BUILDER: container-registry.oracle.com/graalvm/native-image:25
+
+tasks:
+  _default:
+    cmds:
+      - task --list-all
+
+  compose:up:
+    desc: Start Postgres + Redis
+    cmds:
+      - docker compose up -d postgres redis
+      - |
+        set -euo pipefail
+        for i in $(seq 1 30); do
+          docker compose exec -T postgres pg_isready -U postgres -d ao_demo >/dev/null 2>&1 \
+            && docker compose exec -T redis redis-cli ping >/dev/null 2>&1 \
+            && echo "Compose deps healthy" && exit 0
+          sleep 1
+        done
+        echo "FAIL: postgres/redis not healthy" >&2
+        exit 1
+
+  compose:down:
+    desc: Stop Compose stack
+    cmds:
+      - docker compose --profile ao down
+
+  dev:
+    desc: Quarkus dev mode (requires compose:up)
+    cmds:
+      - ./mvnw quarkus:dev
+
+  test:
+    desc: Run integration test (requires compose:up)
+    cmds:
+      - ./mvnw verify
+
+  ao:reflect:
+    desc: Regenerate FT + Arjuna + Redis/Vertx invert-target reflect-config
+    cmds:
+      - scripts/native/generate-ft-ao-reflect-config.sh --module-path .
+      - scripts/native/generate-arjuna-ao-reflect-config.sh --module-path .
+      - scripts/native/generate-redis-vertx-ao-reflect-config.sh --module-path .
+
+  ao:build:
+    desc: Build AO native Linux runner (Oracle GraalVM 25 container-build)
+    cmds:
+      - task: ao:reflect
+      - |
+        set -euo pipefail
+        ./mvnw -T 1 package -Pnative -Dmaven.test.skip \
+          -Dquarkus.native.container-build=true \
+          -Dquarkus.native.builder-image={{.ORACLE_BUILDER}} \
+          -Dquarkus.native.container-runtime-options=-w,/project \
+          -Dquarkus.native.additional-build-args=-H:AdvancedObfuscation=export-mapping,--initialize-at-run-time=org.fusesource.jansi
+
+  ao:image:
+    desc: Package AO runner as local Docker image
+    cmds:
+      - |
+        set -euo pipefail
+        [[ -f "target/{{.RUNNER}}" ]] || {
+          echo "FAIL: missing target/{{.RUNNER}} - run task ao:build first"
+          exit 1
+        }
+        docker build -f scripts/native/Dockerfile.ao \
+          --build-arg NATIVE_RUNNER_FILENAME="{{.RUNNER}}" \
+          -t "{{.IMAGE}}" \
+          .
+        echo "Tagged {{.IMAGE}}"
+
+  ao:run:
+    desc: Run AO image against Compose Redis+Postgres
+    cmds:
+      - AO_IMAGE={{.IMAGE}} docker compose --profile ao up -d ao-app
+      - |
+        set -euo pipefail
+        for i in $(seq 1 60); do
+          curl -sf http://localhost:8080/q/health/ready >/dev/null 2>&1 && exit 0
+          sleep 2
+        done
+        echo "FAIL: ao-app readiness timeout" >&2
+        docker compose --profile ao logs ao-app | tail -80
+        exit 1
+
+  ao:smoke:
+    desc: curl /ping + readiness against running AO app
+    cmds:
+      - curl -sf http://localhost:8080/q/health/ready | jq .
+      - curl -sf 'http://localhost:8080/ping?caller=smoke' | jq .
+      - curl -sf -D - -o /dev/null 'http://localhost:8080/ping?caller=smoke' | grep -iE 'HTTP/|X-Correlation'

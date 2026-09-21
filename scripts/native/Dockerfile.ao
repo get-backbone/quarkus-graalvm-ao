@@ -1,0 +1,24 @@
+# Native AO demo image: copy a Linux/glibc Quarkus runner built with
+# quarkus.native.container-build=true (required on macOS).
+#
+# Do NOT copy a Darwin host-native binary into this image.
+
+ARG NATIVE_RUNNER_FILENAME
+
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.5
+ARG NATIVE_RUNNER_FILENAME
+
+WORKDIR /app
+
+RUN microdnf install -y shadow-utils \
+    && useradd -u 1000 -U demouser \
+    && microdnf clean all
+
+COPY --chown=1000:1000 target/${NATIVE_RUNNER_FILENAME} /app/application
+RUN chmod +x /app/application
+
+ENV QUARKUS_HTTP_HOST=0.0.0.0
+EXPOSE 8080
+
+USER 1000:1000
+ENTRYPOINT ["/app/application"]
