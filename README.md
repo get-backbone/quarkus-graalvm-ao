@@ -35,7 +35,7 @@ curl -s http://localhost:8080/q/health/ready | jq
 ### AO native image
 
 ```bash
-task ao:build    # regenerates reflect-config, then container-build (~15–40m)
+task ao:build    # regenerates reflect-config, then container-build (~15m)
 task ao:image
 task ao:run
 task ao:smoke
