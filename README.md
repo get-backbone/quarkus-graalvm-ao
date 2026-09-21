@@ -1,10 +1,11 @@
-# Quarkus + GraalVM Advanced Obfuscation
+# Quarkus + GraalVM AO
 
 [![Quarkus](https://img.shields.io/badge/Quarkus-3.36.1-4695EB?logo=quarkus&logoColor=white)](https://quarkus.io/)
 [![GraalVM](https://img.shields.io/badge/GraalVM-25-F2A900?logo=oracle&logoColor=white)](https://www.graalvm.org/jdk25/security-guide/native-image/obfuscation/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Demonstrates Quarkus + Oracle GraalVM 25 **Advanced Obfuscation** on a production-grade stack; not a hello-world that only adds `-H:AdvancedObfuscation`.
+Demonstrates Quarkus + Oracle GraalVM 25 Advanced Obfuscation (AO) on a production-grade stack.  
+This is not a hello-world that only adds `-H:AdvancedObfuscation` and includes:
 
 - Quarkus ArC CDI
 - SmallRye Fault Tolerance 
@@ -13,9 +14,9 @@ Demonstrates Quarkus + Oracle GraalVM 25 **Advanced Obfuscation** on a productio
 - SmallRye Health + Micrometer/Prometheus
 - [backbone-kit](https://github.com/get-backbone/backbone-kit) metrics, logging, throttle components
 
-## Run
+## Prerequisites
 
-Needs JDK 25, Docker, [Task](https://taskfile.dev/), `jq`.
+JDK 25, Docker, [Task](https://taskfile.dev/), `jq`.
 
 ### JVM
 
@@ -30,7 +31,7 @@ curl -s 'http://localhost:8080/ping?caller=demo' | jq
 curl -s http://localhost:8080/q/health/ready | jq
 ```
 
-### Advanced Obfuscation native image
+### AO native image
 
 ```bash
 task ao:build    # regenerates reflect-config, then container-build (~15–40m)
