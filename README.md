@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 Demonstrates Quarkus + Oracle GraalVM 25 Advanced Obfuscation (AO) on a production-grade stack.  
-This is not a hello-world that only adds `-H:AdvancedObfuscation` and includes:
+This is not a hello-world that only adds `-H:AdvancedObfuscation` but demonstrates Quarkus running on a native image with AO and:
 
 - Quarkus ArC CDI
 - SmallRye Fault Tolerance 
