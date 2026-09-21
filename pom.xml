@@ -17,7 +17,7 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>3.36.1</quarkus.platform.version>
-        <io.backbone.version>1.0.1</io.backbone.version>
+        <io.backbonehq.version>2.0.0</io.backbonehq.version>
         <lombok.version>1.18.44</lombok.version>
         <failsafe-plugin.version>3.5.6</failsafe-plugin.version>
     </properties>
@@ -91,39 +91,39 @@
 
         <!-- backbone-kit -->
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-common</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-logging</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-logging-api</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-metrics</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-metrics-api</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-throttle</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.backbone</groupId>
+            <groupId>io.backbonehq</groupId>
             <artifactId>backbone-throttle-api</artifactId>
-            <version>${io.backbone.version}</version>
+            <version>${io.backbonehq.version}</version>
         </dependency>
 
         <!-- other -->
