@@ -1,7 +1,7 @@
 package io.backbone.demo.ao.metrics;
 
-import io.backbone.kit.metrics.api.domain.MetricsRecorder;
-import io.backbone.kit.metrics.api.dto.MetricsResultIndicator;
+import io.backbonehq.kit.metrics.api.domain.MetricsRecorder;
+import io.backbonehq.kit.metrics.api.dto.MetricsResultIndicator;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.enterprise.context.ApplicationScoped;

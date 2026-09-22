@@ -1,6 +1,6 @@
 package io.backbone.demo.ao;
 
-import io.backbone.kit.metrics.api.dto.MetricsResultIndicator;
+import io.backbonehq.kit.metrics.api.dto.MetricsResultIndicator;
 import java.io.Serializable;
 
 /**

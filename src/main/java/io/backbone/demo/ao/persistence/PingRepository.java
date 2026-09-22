@@ -1,6 +1,6 @@
 package io.backbone.demo.ao.persistence;
 
-import io.backbone.kit.metrics.api.persistence.DatabaseMetrics;
+import io.backbonehq.kit.metrics.api.persistence.DatabaseMetrics;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

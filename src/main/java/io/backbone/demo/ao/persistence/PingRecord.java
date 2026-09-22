@@ -1,6 +1,6 @@
 package io.backbone.demo.ao.persistence;
 
-import io.backbone.kit.metrics.api.persistence.MetricsRecord;
+import io.backbonehq.kit.metrics.api.persistence.MetricsRecord;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
